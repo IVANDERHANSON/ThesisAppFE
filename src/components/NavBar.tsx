@@ -11,6 +11,8 @@ export default function ({ image }: { image: string }) {
                 <Navbar.Toggle />
                 <Navbar.Collapse>
                     <Navbar.Link href="/">Home</Navbar.Link>
+                    <Navbar.Link href="/student/dashboard">Student Dashboard</Navbar.Link>
+                    <Navbar.Link href="/lecturer/dashboard">Lecturer Dashboard</Navbar.Link>
                     <Navbar.Link href="/admin/dashboard">Admin Dashboard</Navbar.Link>
                 </Navbar.Collapse>
             </Navbar>
