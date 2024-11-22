@@ -4,7 +4,7 @@ export default function FooterComponent() {
     return (
         <>
             <Footer container>
-                <Footer.Copyright href="#" by="Flowbite™" year={2022} />
+                <Footer.Copyright href="/" by="Thesis App" year={2024} />
                 <Footer.LinkGroup>
                     <Footer.Link href="/">Home</Footer.Link>
                     <Footer.Link href="/student/dashboard">Student Dashboard</Footer.Link>
