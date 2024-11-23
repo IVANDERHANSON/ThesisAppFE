@@ -3,6 +3,7 @@ import { Thesis } from './model/Model';
 import { Button, Card } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { Alert } from "flowbite-react"
+import Skeleton from './components/Skeleton';
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -34,10 +35,10 @@ export default function Home() {
         return (
             <>
                 <div className="m-8">
-                    <Card className="max-w-sm animate-pulse">
-                        <div className='h-5 w-full bg-gray-200 rounded-full animate-pulse'></div>
-                        <div className='h-5 w-full bg-gray-200 rounded-full animate-pulse'></div>
-                        <div className='h-5 w-full bg-gray-200 rounded-full animate-pulse'></div>
+                    <Card className="max-w-sm">
+                        <Skeleton tailwindHeight='h-5' tailwindWidth='w-full' />
+                        <Skeleton tailwindHeight='h-5' tailwindWidth='w-full' />
+                        <Skeleton tailwindHeight='h-5' tailwindWidth='w-full' />
                     </Card>
                 </div>
             </>
