@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "flowbite-react";
 import UserTable from "../components/tables/UserTable";
+import MentoringSessionTable from "../components/tables/MentoringSessionTable";
 
 export default function AdminDashboard() {
     const [clickedBtn, setClickedBtn] = useState('Students');
@@ -22,6 +23,10 @@ export default function AdminDashboard() {
 
                 <div className="my-4">
                     <UserTable isClicked={clickedBtn === 'Lecturers'} clickedBtn={clickedBtn} />
+                </div>
+
+                <div className="my-4">
+                    <MentoringSessionTable isClicked={clickedBtn === 'Mentoring Sessions'} />
                 </div>
             </div>
         </>
