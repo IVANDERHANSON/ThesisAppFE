@@ -1,15 +1,8 @@
 import { useState, useEffect } from 'react';
+import { Thesis } from './model/Model';
 import { Button, Card } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { Alert } from "flowbite-react"
-
-
-interface Thesis {
-    id: number;
-    studentId: number;
-    thesisName: string;
-    thesisLink: string;
-}
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
