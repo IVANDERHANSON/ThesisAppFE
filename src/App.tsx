@@ -13,7 +13,7 @@ function App() {
       <Router>
         <NavBar image={ThesisAppLogo} />
 
-        <div className="h-screen">
+        <div className="min-h-screen">
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/student/dashboard' element={<StudentDashboard />} />
