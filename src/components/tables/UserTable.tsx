@@ -5,11 +5,7 @@ import { HiInformationCircle } from "react-icons/hi";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export default function UserTable({ isClicked, clickedBtn }: { isClicked: boolean, clickedBtn: string }) {
-    if (!isClicked) {
-        return null;
-    }
-
+export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -65,14 +61,40 @@ export default function UserTable({ isClicked, clickedBtn }: { isClicked: boolea
                         <Table.HeadCell>Email</Table.HeadCell>
                         <Table.HeadCell>Password</Table.HeadCell>
                         <Table.HeadCell>Role</Table.HeadCell>
+                        {clickedBtn === "Students" && (<>
+                            <Table.HeadCell>Pre Thesis</Table.HeadCell>
+                            <Table.HeadCell>Thesis</Table.HeadCell>
+                        </>)}
                     </Table.Head>
                     <Table.Body className="divide-y">
-                        {users.slice(0, 3).map((user) => (
+                        {users.slice(0, 5).map((user) => (
                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={user.id}>
                                 <Table.Cell>{user.id}</Table.Cell>
                                 <Table.Cell>{user.email}</Table.Cell>
                                 <Table.Cell>{user.password}</Table.Cell>
                                 <Table.Cell>{user.role}</Table.Cell>
+                                {clickedBtn === 'Students' && (user.preThesis !== null ? (<>
+                                    <Table.Cell>
+                                        <Button onClick={() => {
+                                            window.location.href = ('/pre-thesis/' + user.preThesis.id)
+                                        }}>
+                                            View
+                                        </Button>
+                                    </Table.Cell>
+                                </>) : (<>
+                                    <Table.Cell>N/A</Table.Cell>
+                                </>))}
+                                {clickedBtn === 'Students' && (user.thesis !== null ? (<>
+                                    <Table.Cell>
+                                        <Button onClick={() => {
+                                            window.location.href = ('/thesis/' + user.thesis.id)
+                                        }}>
+                                            View
+                                        </Button>
+                                    </Table.Cell>
+                                </>) : (<>
+                                    <Table.Cell>N/A</Table.Cell>
+                                </>))}
                             </Table.Row>
                         ))}
                     </Table.Body>

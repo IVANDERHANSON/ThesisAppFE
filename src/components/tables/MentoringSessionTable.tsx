@@ -5,11 +5,7 @@ import { HiInformationCircle } from "react-icons/hi";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export default function MentoringSessionTable({ isClicked }: { isClicked: boolean }) {
-    if (!isClicked) {
-        return null;
-    }
-
+export default function MentoringSessionTable() {
     const [mentoringSessions, setMentoringSessions] = useState<MentoringSession[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);

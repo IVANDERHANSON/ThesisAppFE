@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Thesis } from './model/Model';
+import { Thesis } from '../model/Model';
 import { Button, Card } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { Alert } from "flowbite-react"
-import Skeleton from './components/Skeleton';
+import Skeleton from '../components/Skeleton';
 
 const baseUrl = import.meta.env.VITE_API_URL;
 

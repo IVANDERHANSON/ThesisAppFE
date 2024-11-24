@@ -3,13 +3,15 @@ export interface User {
     email: string;
     password: string;
     role: string;
+    preThesis: PreThesis;
+    thesis: Thesis;
 }
 
 export interface PreThesis {
     id: number;
     studentId: number;
-    thesisName: string;
-    thesisLink: string;
+    preThesisName: string;
+    preThesisLink: string;
 }
 
 export interface MentorPair {
