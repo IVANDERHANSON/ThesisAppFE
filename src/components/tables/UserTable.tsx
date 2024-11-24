@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { User } from "../../model/Model";
 import { Alert, Table, Button, Spinner } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
+import { Link } from 'react-router-dom';
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -63,7 +64,10 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
                         <Table.HeadCell>Role</Table.HeadCell>
                         {clickedBtn === "Students" && (<>
                             <Table.HeadCell>Pre Thesis</Table.HeadCell>
+                            <Table.HeadCell>Mentor Pair</Table.HeadCell>
+                            <Table.HeadCell>Mentoring Sessions</Table.HeadCell>
                             <Table.HeadCell>Thesis</Table.HeadCell>
+                            <Table.HeadCell>Thesis Defence</Table.HeadCell>
                         </>)}
                     </Table.Head>
                     <Table.Body className="divide-y">
@@ -73,24 +77,70 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
                                 <Table.Cell>{user.email}</Table.Cell>
                                 <Table.Cell>{user.password}</Table.Cell>
                                 <Table.Cell>{user.role}</Table.Cell>
+
                                 {clickedBtn === 'Students' && (user.preThesis !== null ? (<>
                                     <Table.Cell>
-                                        <Button onClick={() => {
-                                            window.location.href = ('/pre-thesis/' + user.preThesis.id)
-                                        }}>
+                                        <Link to={'/pre-thesis/' + user.preThesis.id} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                                             View
-                                        </Button>
+                                        </Link>
                                     </Table.Cell>
                                 </>) : (<>
                                     <Table.Cell>N/A</Table.Cell>
                                 </>))}
+
+                                {clickedBtn === 'Students' && ((user.preThesis !== null && user.preThesis.mentorPair !== null) ? (<>
+                                    <Table.Cell>
+                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500 mr-2'>
+                                            View
+                                        </Link>
+                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                            Edit
+                                        </Link>
+                                    </Table.Cell>
+                                </>) : user.preThesis !== null ? (<>
+                                    <Table.Cell>
+                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                            Create
+                                        </Link>
+                                    </Table.Cell>
+                                </>) : (<>
+                                    <Table.Cell>N/A</Table.Cell>
+                                </>))}
+
+                                {clickedBtn === 'Students' && ((user.preThesis !== null && user.preThesis.mentorPair && user.preThesis.mentorPair.mentoringSessions?.length) ? (<>
+                                    <Table.Cell>
+                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                            View
+                                        </Link>
+                                    </Table.Cell>
+                                </>) : (<>
+                                    <Table.Cell>N/A</Table.Cell>
+                                </>))}
+
                                 {clickedBtn === 'Students' && (user.thesis !== null ? (<>
                                     <Table.Cell>
-                                        <Button onClick={() => {
-                                            window.location.href = ('/thesis/' + user.thesis.id)
-                                        }}>
+                                        <Link to={'/thesis/' + user.thesis.id} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                                             View
-                                        </Button>
+                                        </Link>
+                                    </Table.Cell>
+                                </>) : (<>
+                                    <Table.Cell>N/A</Table.Cell>
+                                </>))}
+
+                                {clickedBtn === 'Students' && ((user.thesis !== null && user.thesis.thesisDefence !== null) ? (<>
+                                    <Table.Cell>
+                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500 mr-2'>
+                                            View
+                                        </Link>
+                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                            Edit
+                                        </Link>
+                                    </Table.Cell>
+                                </>) : user.thesis !== null ? (<>
+                                    <Table.Cell>
+                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                            Create
+                                        </Link>
                                     </Table.Cell>
                                 </>) : (<>
                                     <Table.Cell>N/A</Table.Cell>
