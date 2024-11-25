@@ -71,7 +71,7 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
                         </>)}
                     </Table.Head>
                     <Table.Body className="divide-y">
-                        {users.slice(0, 5).map((user) => (
+                        {users.map((user) => (
                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={user.id}>
                                 <Table.Cell>{user.id}</Table.Cell>
                                 <Table.Cell>{user.email}</Table.Cell>
@@ -96,7 +96,7 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
                                     </Table.Cell>
                                 </>) : user.preThesis !== null ? (<>
                                     <Table.Cell>
-                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                        <Link to={'/create/mentor-pair/' + user.preThesis.id} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                                             Create
                                         </Link>
                                     </Table.Cell>

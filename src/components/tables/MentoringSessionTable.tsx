@@ -63,7 +63,7 @@ export default function MentoringSessionTable() {
                         <Table.HeadCell>Meeting Link</Table.HeadCell>
                     </Table.Head>
                     <Table.Body className="divide-y">
-                        {mentoringSessions.slice(0, 3).map((mentoringSession) => (
+                        {mentoringSessions.map((mentoringSession) => (
                             <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={mentoringSession.id}>
                                 <Table.Cell>{mentoringSession.id}</Table.Cell>
                                 <Table.Cell>{mentoringSession.mentorPairId}</Table.Cell>

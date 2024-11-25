@@ -75,7 +75,7 @@ export default function Home() {
                     <Toast.Toggle />
                 </Toast>
 
-                {theses.slice(0, 3).map((thesis) => (
+                {theses.map((thesis) => (
                     <Card className="max-w-sm mt-8" key={thesis.id}>
                         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                             {thesis.thesisName}
