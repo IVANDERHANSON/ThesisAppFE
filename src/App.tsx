@@ -8,6 +8,7 @@ import ThesisAppLogo from './assets/ThesisAppLogo.webp'
 import FooterComponent from './components/FooterComponent'
 import PreThesisPage from './page/PreThesisPage'
 import ThesisPage from './page/ThesisPage'
+import NotFoundPage from './page/NotFoundPage'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path='/admin/dashboard' element={<AdminDashboard />} />
             <Route path='/pre-thesis/:preThesisId' element={<PreThesisPage />} />
             <Route path='/thesis/:thesisId' element={<ThesisPage />} />
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </div>
 

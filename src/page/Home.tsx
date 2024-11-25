@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Thesis } from '../model/Model';
-import { Button, Card } from "flowbite-react";
+import { Button, Card, Toast } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { Alert } from "flowbite-react"
 import Skeleton from '../components/Skeleton';
@@ -35,7 +35,12 @@ export default function Home() {
         return (
             <>
                 <div className="m-8">
-                    <Card className="max-w-sm">
+                    <Toast>
+                        <div className="ml-3 text-sm font-normal">Welcome!</div>
+                        <Toast.Toggle />
+                    </Toast>
+
+                    <Card className="max-w-sm mt-8">
                         <Skeleton tailwindHeight='h-5' tailwindWidth='w-full' />
                         <Skeleton tailwindHeight='h-5' tailwindWidth='w-full' />
                         <Skeleton tailwindHeight='h-5' tailwindWidth='w-full' />
@@ -49,7 +54,12 @@ export default function Home() {
         return (
             <>
                 <div className="m-8">
-                    <Alert color="failure" icon={HiInformationCircle}>
+                    <Toast>
+                        <div className="ml-3 text-sm font-normal">Welcome!</div>
+                        <Toast.Toggle />
+                    </Toast>
+
+                    <Alert color="failure" icon={HiInformationCircle} className='mt-8'>
                         <span className="font-medium">Error!</span> {error}
                     </Alert>
                 </div>
@@ -60,6 +70,11 @@ export default function Home() {
     return (
         <>
             <div className="mx-8 mb-8">
+                <Toast className='mt-8'>
+                    <div className="ml-3 text-sm font-normal">Welcome!</div>
+                    <Toast.Toggle />
+                </Toast>
+
                 {theses.slice(0, 3).map((thesis) => (
                     <Card className="max-w-sm mt-8" key={thesis.id}>
                         <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
