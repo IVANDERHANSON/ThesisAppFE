@@ -90,9 +90,6 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
 
                                 {clickedBtn === 'Students' && ((user.preThesis !== null && user.preThesis.mentorPair !== null) ? (<>
                                     <Table.Cell>
-                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500 mr-2'>
-                                            View
-                                        </Link>
                                         <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                                             Edit
                                         </Link>
@@ -109,7 +106,7 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
 
                                 {clickedBtn === 'Students' && ((user.preThesis !== null && user.preThesis.mentorPair && user.preThesis.mentorPair.mentoringSessions?.length) ? (<>
                                     <Table.Cell>
-                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                        <Link to={'/mentoring-sessions/' + user.preThesis.mentorPair.id} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                                             View
                                         </Link>
                                     </Table.Cell>
@@ -129,9 +126,6 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
 
                                 {clickedBtn === 'Students' && ((user.thesis !== null && user.thesis.thesisDefence !== null) ? (<>
                                     <Table.Cell>
-                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500 mr-2'>
-                                            View
-                                        </Link>
                                         <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                                             Edit
                                         </Link>
