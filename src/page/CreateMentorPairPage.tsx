@@ -1,7 +1,7 @@
 import { Alert, Button, Card, Label, Select, Textarea, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { User } from "../model/Model";
+import { MentorPairCreation, User } from "../model/Model";
 import Skeleton from "../components/Skeleton";
 import { HiInformationCircle } from "react-icons/hi";
 
@@ -15,6 +15,11 @@ export default function CreateMentorPairPage() {
     const [mentorLecturers, setMentorLecturers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+
+    const [mentorLecturerId, setMentorLecturerId] = useState(0);
+    const [posting, setPosting] = useState(false);
+    const [postingError, setPostingError] = useState<string | null>(null);
+    const [response, setResponse] = useState<any>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -79,6 +84,43 @@ export default function CreateMentorPairPage() {
         )
     }
 
+    const postMentorPair = async (mentorPair: MentorPairCreation) => {
+        setPosting(true);
+        try {
+            const response = await fetch(baseUrl + '/api/MentorPair', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(mentorPair),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            setResponse(data);
+        } catch (error) {
+            setPostingError('There was an error!' + error);
+        } finally {
+            setPosting(false);
+        }
+    }
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const id = Number(preThesisId);
+        if (mentorLecturerId == 0) {
+            const mentorPair: MentorPairCreation = { preThesisId: id, mentorLecturerId: mentorLecturers[0].id };
+            postMentorPair(mentorPair);
+        } else {
+            const mentorPair: MentorPairCreation = { preThesisId: id, mentorLecturerId };
+            postMentorPair(mentorPair);
+        }
+    };
+
     return (
         <>
             <div className="m-8">
@@ -87,7 +129,7 @@ export default function CreateMentorPairPage() {
                 <Card className="mt-8 max-w-md">
                     <h1>Create Mentor Pair</h1>
 
-                    <form className="flex flex-col gap-4">
+                    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="studentEmail" value="Student Email" />
@@ -113,7 +155,7 @@ export default function CreateMentorPairPage() {
                             <div className="mb-2 block">
                                 <Label htmlFor="mentorLecturer" value="Select Mentor Lecturer" />
                             </div>
-                            <Select id="mentorLecturer" required>
+                            <Select id="mentorLecturer" value={mentorLecturerId} required onChange={(e) => setMentorLecturerId(Number(e.target.value))}>
                                 {mentorLecturers.map((mentorLecturer) => (
                                     <option value={mentorLecturer.id} key={mentorLecturer.id}>{mentorLecturer.email}</option>
                                 ))}

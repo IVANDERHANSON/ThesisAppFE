@@ -22,6 +22,11 @@ export interface MentorPair {
     mentoringSessions: MentoringSession[];
 }
 
+export interface MentorPairCreation {
+    preThesisId: number;
+    mentorLecturerId: number;
+}
+
 export interface MentoringSession {
     id: number;
     mentorPairId: number;
