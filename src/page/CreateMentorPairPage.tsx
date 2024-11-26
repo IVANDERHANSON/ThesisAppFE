@@ -1,7 +1,7 @@
-import { Alert, Button, Card, Label, Select, Textarea, TextInput } from "flowbite-react";
+import { Alert, Button, Card, Label, Select, Spinner, Textarea, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MentorPairCreation, User } from "../model/Model";
+import { MentorPairCreation, Response, User } from "../model/Model";
 import Skeleton from "../components/Skeleton";
 import { HiInformationCircle } from "react-icons/hi";
 
@@ -19,7 +19,7 @@ export default function CreateMentorPairPage() {
     const [mentorLecturerId, setMentorLecturerId] = useState(0);
     const [posting, setPosting] = useState(false);
     const [postingError, setPostingError] = useState<string | null>(null);
-    const [response, setResponse] = useState<any>(null);
+    const [postingResponse, setPostingResponse] = useState<Response>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -100,9 +100,13 @@ export default function CreateMentorPairPage() {
             }
 
             const data = await response.json();
-            setResponse(data);
-        } catch (error) {
-            setPostingError('There was an error!' + error);
+            setPostingResponse(data);
+
+            setTimeout(() => {
+                navigate(-1);
+            }, 5000);
+        } catch (err: unknown) {
+            setPostingError(err instanceof Error ? err.message : 'An unknown error occurred');
         } finally {
             setPosting(false);
         }
@@ -161,8 +165,35 @@ export default function CreateMentorPairPage() {
                                 ))}
                             </Select>
                         </div>
-                        <Button type="submit">Submit</Button>
+                        {posting ? (
+                            <>
+                                <Button type="button">
+                                    <Spinner aria-label="Spinner button example" size="sm" />
+                                    <span className="pl-3">Loading...</span>
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button type="submit">Submit</Button>
+                            </>
+                        )}
                     </form>
+
+                    {!postingResponse?.message && postingError && (
+                        <>
+                            <Alert color="failure" icon={HiInformationCircle}>
+                                <span className="font-medium">Error!</span> {postingError}
+                            </Alert>
+                        </>
+                    )}
+
+                    {postingResponse?.message && (
+                        <>
+                            <Alert color="info">
+                                <span className="font-medium">{postingResponse?.message}</span> We will redirect you back to Admin Dashboard in 5 seconds.
+                            </Alert>
+                        </>
+                    )}
                 </Card>
             </div>
         </>

@@ -50,3 +50,7 @@ export interface ThesisDefence {
     schedule: string;
     meetingLink: string;
 }
+
+export interface Response {
+    message: string;
+}
