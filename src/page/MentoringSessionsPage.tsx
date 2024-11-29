@@ -1,6 +1,6 @@
 import { Alert, Button, Spinner, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MentoringSession } from "../model/Model";
 import { HiInformationCircle } from "react-icons/hi";
 
@@ -89,7 +89,11 @@ export default function MentoringSessionsPage() {
                                     <Table.Cell>{mentoringSession.id}</Table.Cell>
                                     <Table.Cell>{mentoringSession.mentorPairId}</Table.Cell>
                                     <Table.Cell>{mentoringSession.schedule}</Table.Cell>
-                                    <Table.Cell>{mentoringSession.meetingLink}</Table.Cell>
+                                    <Table.Cell>
+                                        <Link to={mentoringSession.meetingLink} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500' target="_blank" rel="noopener noreferrer">
+                                            {mentoringSession.meetingLink}
+                                        </Link>
+                                    </Table.Cell>
                                 </Table.Row>
                             ))}
                         </Table.Body>

@@ -11,6 +11,7 @@ import ThesisPage from './page/ThesisPage'
 import NotFoundPage from './page/NotFoundPage'
 import MentoringSessionsPage from './page/MentoringSessionsPage'
 import CreateMentorPairPage from './page/CreateMentorPairPage'
+import EditMentorPairPage from './page/EditMentorPairPage'
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
             <Route path='/pre-thesis/:preThesisId' element={<PreThesisPage />} />
 
             <Route path='/create/mentor-pair/:preThesisId' element={<CreateMentorPairPage />} />
+
+            <Route path='/edit/mentor-pair/:studentId' element={<EditMentorPairPage />} />
 
             <Route path='/mentoring-sessions/:mentorPairId' element={<MentoringSessionsPage />} />
 

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MentoringSession } from "../../model/Model";
 import { Alert, Button, Spinner, Table } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -68,7 +69,11 @@ export default function MentoringSessionTable() {
                                 <Table.Cell>{mentoringSession.id}</Table.Cell>
                                 <Table.Cell>{mentoringSession.mentorPairId}</Table.Cell>
                                 <Table.Cell>{mentoringSession.schedule}</Table.Cell>
-                                <Table.Cell>{mentoringSession.meetingLink}</Table.Cell>
+                                <Table.Cell>
+                                    <Link to={mentoringSession.meetingLink} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500' target="_blank" rel="noopener noreferrer">
+                                        {mentoringSession.meetingLink}
+                                    </Link>
+                                </Table.Cell>
                             </Table.Row>
                         ))}
                     </Table.Body>
