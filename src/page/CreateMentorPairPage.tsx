@@ -21,6 +21,8 @@ export default function CreateMentorPairPage() {
     const [postingError, setPostingError] = useState<string | null>(null);
     const [postingResponse, setPostingResponse] = useState<Response>();
 
+    const [countdown, setCountdown] = useState<number | null>(null);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -102,9 +104,16 @@ export default function CreateMentorPairPage() {
             const data = await response.json();
             setPostingResponse(data);
 
-            setTimeout(() => {
-                navigate(-1);
-            }, 5000);
+            const countdownFunction = (count: number) => {
+                if (count >= 0) {
+                    setCountdown(count);
+                    setTimeout(() => countdownFunction(count - 1), 1000);
+                } else {
+                    navigate(-1);
+                }
+            };
+
+            countdownFunction(5);
         } catch (err: unknown) {
             setPostingError(err instanceof Error ? err.message : 'An unknown error occurred');
         } finally {
@@ -117,7 +126,7 @@ export default function CreateMentorPairPage() {
 
         const id = Number(preThesisId);
         if (mentorLecturerId == -1) {
-            const mentorPair: MentorPairCreation = { preThesisId: id, mentorLecturerId: mentorLecturers[0].id };
+            const mentorPair: MentorPairCreation = { preThesisId: id, mentorLecturerId: mentorLecturers[0]?.id };
             postMentorPair(mentorPair);
         } else {
             const mentorPair: MentorPairCreation = { preThesisId: id, mentorLecturerId };
@@ -190,7 +199,7 @@ export default function CreateMentorPairPage() {
                     {postingResponse?.message && (
                         <>
                             <Alert color="info">
-                                <span className="font-medium">{postingResponse?.message}</span> We will redirect you back to Admin Dashboard in 5 seconds.
+                                <span className="font-medium">{postingResponse?.message}</span> We will redirect you back to Admin Dashboard in {countdown} seconds.
                             </Alert>
                         </>
                     )}
