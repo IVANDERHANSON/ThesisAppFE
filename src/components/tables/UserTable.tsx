@@ -132,7 +132,7 @@ export default function UserTable({ clickedBtn }: { clickedBtn: string }) {
                                     </Table.Cell>
                                 </>) : user.thesis !== null ? (<>
                                     <Table.Cell>
-                                        <Link to='#' className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
+                                        <Link to={'/create/thesis-defence/' + user.thesis.id} className='font-medium text-cyan-600 hover:underline dark:text-cyan-500'>
                                             Create
                                         </Link>
                                     </Table.Cell>
