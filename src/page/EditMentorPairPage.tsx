@@ -1,6 +1,6 @@
-import { Alert, Button, Card, Label, Select, Textarea, TextInput } from "flowbite-react";
+import { Alert, Button, Card, Label, Select, Spinner, Textarea, TextInput } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom"
-import { User } from "../model/Model";
+import { MentorPairCreation, Response, User } from "../model/Model";
 import { useEffect, useState } from "react";
 import Skeleton from "../components/Skeleton";
 import { HiInformationCircle } from "react-icons/hi";
@@ -18,6 +18,11 @@ export default function EditMentorPairPage() {
 
     const [mentorLecturerId, setMentorLecturerId] = useState(-1);
     const [mentorLecturer, setMentorLecturer] = useState<User>();
+    const [updating, setUpdating] = useState(false);
+    const [updatingError, setUpdatingError] = useState<string | null>(null);
+    const [updatingResponse, setUpdatingResponse] = useState<Response>();
+
+    const [countdown, setCountdown] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -89,6 +94,53 @@ export default function EditMentorPairPage() {
         )
     }
 
+    const updateMentorPair = async (mentorPair: MentorPairCreation) => {
+        setUpdating(true);
+        try {
+            const response = await fetch(baseUrl + '/api/MentorPair/edit/' + student?.preThesis.mentorPair.id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(mentorPair),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            setUpdatingResponse(data);
+
+            const countdownFunction = (count: number) => {
+                if (count >= 0) {
+                    setCountdown(count);
+                    setTimeout(() => countdownFunction(count - 1), 1000);
+                } else {
+                    navigate(-1);
+                }
+            };
+
+            countdownFunction(5);
+        } catch (err: unknown) {
+            setUpdatingError(err instanceof Error ? err.message : 'An unknown error occurred');
+        } finally {
+            setUpdating(false);
+        }
+    }
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (mentorLecturerId == -1) {
+            const mentorPair: MentorPairCreation = { preThesisId: Number(student?.preThesis.id), mentorLecturerId: Number(mentorLecturer?.id) };
+            updateMentorPair(mentorPair);
+        } else {
+            const mentorPair: MentorPairCreation = { preThesisId: Number(student?.preThesis.id), mentorLecturerId };
+            updateMentorPair(mentorPair);
+        }
+    };
+
     return (
         <>
             <div className="m-8">
@@ -97,7 +149,7 @@ export default function EditMentorPairPage() {
                 <Card className="mt-8 max-w-md">
                     <h1>Edit Mentor Pair</h1>
 
-                    <form className="flex flex-col gap-4">
+                    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="studentEmail" value="Student Email" />
@@ -125,14 +177,45 @@ export default function EditMentorPairPage() {
                             </div>
                             <Select id="mentorLecturer" value={mentorLecturerId} required onChange={(e) => setMentorLecturerId(Number(e.target.value))}>
                                 <option value={mentorLecturer?.id}>{mentorLecturer?.email}</option>
-                                {mentorLecturers.map((mentorLecturer) => (
-                                    <option value={mentorLecturer.id} key={mentorLecturer.id}>{mentorLecturer.email}</option>
+                                {mentorLecturers.map((mentor) => (
+                                    <option value={mentor.id} key={mentor.id}>{mentor.email}</option>
                                 ))}
                             </Select>
                         </div>
 
-                        <Button type="submit">Submit</Button>
+                        {updating ? (
+                            <>
+                                <Button type="button">
+                                    <Spinner aria-label="Spinner button example" size="sm" />
+                                    <span className="pl-3">Loading...</span>
+                                </Button>
+                            </>
+                        ) : updatingResponse?.message ? (
+                            <>
+                                <Button type="button">Submit</Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button type="submit">Submit</Button>
+                            </>
+                        )}
                     </form>
+
+                    {!updatingResponse?.message && updatingError && (
+                        <>
+                            <Alert color="failure" icon={HiInformationCircle}>
+                                <span className="font-medium">Error!</span> {updatingError}
+                            </Alert>
+                        </>
+                    )}
+
+                    {updatingResponse?.message && (
+                        <>
+                            <Alert color="info">
+                                <span className="font-medium">{updatingResponse?.message}</span> We will redirect you back to Admin Dashboard in {countdown} seconds.
+                            </Alert>
+                        </>
+                    )}
                 </Card>
             </div>
         </>
