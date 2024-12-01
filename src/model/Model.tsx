@@ -51,6 +51,14 @@ export interface ThesisDefence {
     meetingLink: string;
 }
 
+export interface ThesisDefenceCreation {
+    thesisId: number;
+    mentorLecturerId: number;
+    examinerLecturerId: number;
+    schedule: string;
+    meetingLink: string;
+}
+
 export interface Response {
     message: string;
 }

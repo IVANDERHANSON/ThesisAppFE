@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { User } from "../model/Model";
-import { Alert, Button, Card, Label, Select, Textarea, TextInput } from "flowbite-react";
+import { Response, ThesisDefenceCreation, User } from "../model/Model";
+import { Alert, Button, Card, Label, Select, Spinner, Textarea, TextInput } from "flowbite-react";
 import Skeleton from "../components/Skeleton";
 import { HiInformationCircle } from "react-icons/hi";
 
@@ -26,8 +26,17 @@ export default function () {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const [mentorLecturerId, setMentorLecturerId] = useState(-1);
     const [examinerLecturerId, setExaminerLecturerId] = useState(-1);
+    const [date, setDate] = useState("");
     const [time, setTime] = useState<string>("");
+    const [meetingLink, setMeetingLink] = useState("");
+
+    const [posting, setPosting] = useState(false);
+    const [postingError, setPostingError] = useState<string | null>(null);
+    const [postingResponse, setPostingResponse] = useState<Response>();
+
+    const [countdown, setCountdown] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,6 +47,7 @@ export default function () {
                 }
                 const result1: User = await response1.json();
                 setStudent(result1);
+                setMentorLecturerId(result1.preThesis.mentorPair.mentorLecturerId);
 
                 const response2 = await fetch(baseUrl + '/api/User/' + result1.preThesis.mentorPair.mentorLecturerId);
                 if (!response2.ok) {
@@ -105,6 +115,71 @@ export default function () {
         )
     }
 
+    const postThesisDefence = async (thesisDefence: ThesisDefenceCreation) => {
+        setPosting(true);
+        try {
+            const response = await fetch(baseUrl + '/api/ThesisDefence', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(thesisDefence),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            setPostingResponse(data);
+
+            const countdownFunction = (count: number) => {
+                if (count >= 0) {
+                    setCountdown(count);
+                    setTimeout(() => countdownFunction(count - 1), 1000);
+                } else {
+                    navigate(-1);
+                }
+            };
+
+            countdownFunction(5);
+        } catch (err: unknown) {
+            setPostingError(err instanceof Error ? err.message : 'An unknown error occurred');
+        } finally {
+            setPosting(false);
+        }
+    }
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        if (!meetingLink.startsWith('https://')) {
+            return;
+        }
+
+        const id = Number(thesisId);
+        const schedule = date + 'T' + time;
+        if (examinerLecturerId == -1) {
+            const thesisDefence: ThesisDefenceCreation = {
+                thesisId: id,
+                mentorLecturerId,
+                examinerLecturerId: examinerLecturers[0]?.id,
+                schedule,
+                meetingLink
+            };
+            postThesisDefence(thesisDefence);
+        } else {
+            const thesisDefence: ThesisDefenceCreation = {
+                thesisId: id,
+                mentorLecturerId,
+                examinerLecturerId,
+                schedule,
+                meetingLink
+            };
+            postThesisDefence(thesisDefence);
+        }
+    };
+
     return (
         <>
             <div className="m-8">
@@ -113,7 +188,7 @@ export default function () {
                 <Card className="mt-8 max-w-md">
                     <h1>Create Thesis Defence</h1>
 
-                    <form className="flex flex-col gap-4">
+                    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="studentEmail" value="Student Email" />
@@ -157,7 +232,12 @@ export default function () {
                             <div className="mb-2 block">
                                 <Label htmlFor="date" value="Date" />
                             </div>
-                            <TextInput id="date" type="date" required />
+                            <TextInput
+                                id="date"
+                                type="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                required />
                         </div>
 
                         <div>
@@ -165,8 +245,8 @@ export default function () {
                                 <Label htmlFor="time" value="Time" />
                             </div>
                             <Select id="time" value={time} required onChange={(e) => setTime(e.target.value)}>
-                                {timeOptions.map((timeOption) => (
-                                    <option value={timeOption}>{timeOption}</option>
+                                {timeOptions.map((timeOption, index) => (
+                                    <option value={timeOption} key={index + 1}>{timeOption}</option>
                                 ))}
                             </Select>
                         </div>
@@ -175,11 +255,51 @@ export default function () {
                             <div className="mb-2 block">
                                 <Label htmlFor="meetingLink" value="Meeting Link" />
                             </div>
-                            <TextInput id="meetingLink" type="text" placeholder="Meeting Link" required />
+                            <TextInput
+                                id="meetingLink"
+                                type="text"
+                                placeholder="Meeting Link"
+                                value={meetingLink}
+                                onChange={(e) => {
+                                    setMeetingLink(e.target.value);
+                                    if (!e.target.value.startsWith('https://')) {
+                                        setPostingError('The Meeting Link must start with https://');
+                                    } else {
+                                        setPostingError(null);
+                                    }
+                                }}
+                                required />
                         </div>
 
-                        <Button type="submit">Submit</Button>
+                        {posting ? (
+                            <>
+                                <Button type="button">
+                                    <Spinner aria-label="Spinner button example" size="sm" />
+                                    <span className="pl-3">Loading...</span>
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Button type="submit">Submit</Button>
+                            </>
+                        )}
                     </form>
+
+                    {!postingResponse?.message && postingError && (
+                        <>
+                            <Alert color="failure" icon={HiInformationCircle}>
+                                <span className="font-medium">Error!</span> {postingError}
+                            </Alert>
+                        </>
+                    )}
+
+                    {postingResponse?.message && (
+                        <>
+                            <Alert color="info">
+                                <span className="font-medium">{postingResponse?.message}</span> We will redirect you back to Admin Dashboard in {countdown} seconds.
+                            </Alert>
+                        </>
+                    )}
                 </Card>
             </div>
         </>
