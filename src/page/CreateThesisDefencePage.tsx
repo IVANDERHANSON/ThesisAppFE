@@ -123,16 +123,16 @@ export default function () {
 
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="preThesisName" value="Pre Thesis Name" />
+                                <Label htmlFor="thesisName" value="Thesis Name" />
                             </div>
-                            <Textarea id="preThesisName" placeholder={student?.thesis.thesisName} required rows={4} disabled className="resize-none" />
+                            <Textarea id="thesisName" placeholder={student?.thesis.thesisName} required rows={4} disabled className="resize-none" />
                         </div>
 
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="preThesisLink" value="Pre Thesis Link" />
+                                <Label htmlFor="thesisLink" value="Thesis Link" />
                             </div>
-                            <a href={student?.thesis.thesisLink} target="_blank" rel="noopener noreferrer" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">{student?.preThesis.preThesisLink}</a>
+                            <a href={student?.thesis.thesisLink} target="_blank" rel="noopener noreferrer" className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">{student?.thesis.thesisLink}</a>
                         </div>
 
                         <div>
