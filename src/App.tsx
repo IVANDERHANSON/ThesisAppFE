@@ -13,6 +13,7 @@ import MentoringSessionsPage from './page/MentoringSessionsPage'
 import CreateMentorPairPage from './page/CreateMentorPairPage'
 import EditMentorPairPage from './page/EditMentorPairPage'
 import CreateThesisDefencePage from './page/CreateThesisDefencePage'
+import EditThesisDefencePage from './page/EditThesisDefencePage'
 
 function App() {
   return (
@@ -41,6 +42,8 @@ function App() {
             <Route path='/thesis/:thesisId' element={<ThesisPage />} />
 
             <Route path='/create/thesis-defence/:thesisId' element={<CreateThesisDefencePage />} />
+
+            <Route path='/edit/thesis-defence/:studentId' element={<EditThesisDefencePage />} />
             
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
