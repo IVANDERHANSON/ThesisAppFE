@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import NavBar from './components/NavBar'
 import Home from './page/Home'
-import StudentDashboard from './page/dashboard/StudentDashboard'
+import StudentDashboard from './page/dashboard/student/StudentDashboard'
 import LecturerDashboard from './page/dashboard/LecturerDashboard'
 import AdminDashboard from './page/dashboard/AdminDashboard'
 import ThesisAppLogo from './assets/ThesisAppLogo.webp'
