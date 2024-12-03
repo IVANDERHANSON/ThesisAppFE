@@ -1,29 +1,29 @@
 import { Alert, Button, Card } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom"
-import { PreThesis } from "../model/Model";
-import Skeleton from "../components/Skeleton";
+import { useNavigate, useParams } from "react-router-dom";
+import { Thesis } from "../../../model/Model";
+import Skeleton from "../../../components/Skeleton";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-export default function PreThesisPage() {
-    const { preThesisId } = useParams();
+export default function ThesisPage() {
+    const { thesisId } = useParams();
     const navigate = useNavigate();
 
-    const [preThesis, setPreThesis] = useState<PreThesis>();
+    const [thesis, setThesis] = useState<Thesis>();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(baseUrl + '/api/PreThesis/' + preThesisId);
+                const response = await fetch(baseUrl + '/api/Thesis/' + thesisId);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const result: PreThesis = await response.json();
-                setPreThesis(result);
+                const result: Thesis = await response.json();
+                setThesis(result);
             } catch (err: unknown) {
                 setError(err instanceof Error ? err.message : 'An unknown error occurred');
             } finally {
@@ -77,13 +77,13 @@ export default function PreThesisPage() {
 
                 <Card className="max-w-sm mt-8">
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        {preThesis?.preThesisName}
+                        {thesis?.thesisName}
                     </h5>
                     <p className="font-normal text-gray-700 dark:text-gray-400">
-                        Student Id: {preThesis?.studentId}
+                        Student Id: {thesis?.studentId}
                     </p>
                     <Button onClick={() => {
-                        window.open(preThesis?.preThesisLink, '_blank', 'noopener, noreferrer')
+                        window.open(thesis?.thesisLink, '_blank', 'noopener, noreferrer')
                     }}>
                         Link
                     </Button>

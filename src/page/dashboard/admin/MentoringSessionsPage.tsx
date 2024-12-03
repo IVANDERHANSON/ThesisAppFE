@@ -1,7 +1,7 @@
 import { Alert, Button, Spinner, Table } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { MentoringSession } from "../model/Model";
+import { MentoringSession } from "../../../model/Model";
 import { HiInformationCircle } from "react-icons/hi";
 
 const baseUrl = import.meta.env.VITE_API_URL;

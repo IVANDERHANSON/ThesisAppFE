@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Response, ThesisDefenceCreation, User } from "../model/Model";
+import { Response, ThesisDefenceCreation, User } from "../../../../model/Model";
 import { Alert, Button, Card, Label, Select, Spinner, Textarea, TextInput } from "flowbite-react";
-import Skeleton from "../components/Skeleton";
+import Skeleton from "../../../../components/Skeleton";
 import { HiInformationCircle } from "react-icons/hi";
 
 const baseUrl = import.meta.env.VITE_API_URL;

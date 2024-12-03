@@ -1,8 +1,8 @@
 import { Alert, Button, Card, Label, Select, Spinner, Textarea, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { MentorPairCreation, Response, User } from "../model/Model";
-import Skeleton from "../components/Skeleton";
+import { MentorPairCreation, Response, User } from "../../../../model/Model";
+import Skeleton from "../../../../components/Skeleton";
 import { HiInformationCircle } from "react-icons/hi";
 
 const baseUrl = import.meta.env.VITE_API_URL;
