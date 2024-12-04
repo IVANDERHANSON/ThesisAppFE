@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User } from "../../model/Model";
+import { User } from "../../../../model/Model";
 import { Alert, Table, Button, Spinner } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { Link } from 'react-router-dom';

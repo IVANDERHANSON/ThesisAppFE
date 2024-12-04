@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "flowbite-react";
-import UserTable from "../../../components/tables/UserTable";
-import MentoringSessionTable from "../../../components/tables/MentoringSessionTable";
+import UserTable from "./tables/UserTable";
+import MentoringSessionTable from "./tables/MentoringSessionTable";
 
 export default function AdminDashboard() {
     const [clickedBtn, setClickedBtn] = useState('Students');

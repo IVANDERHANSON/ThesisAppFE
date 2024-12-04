@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MentoringSession } from "../../model/Model";
+import { MentoringSession } from "../../../../model/Model";
 import { Alert, Button, Spinner, Table } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
