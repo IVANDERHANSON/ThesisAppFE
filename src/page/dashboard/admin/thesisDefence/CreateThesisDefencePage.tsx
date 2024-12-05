@@ -278,6 +278,10 @@ export default function () {
                                     <span className="pl-3">Loading...</span>
                                 </Button>
                             </>
+                        ) : postingResponse?.message ? (
+                            <>
+                                <Button type="button">Submit</Button>
+                            </>
                         ) : (
                             <>
                                 <Button type="submit">Submit</Button>
