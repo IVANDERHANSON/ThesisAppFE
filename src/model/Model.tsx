@@ -15,6 +15,12 @@ export interface PreThesis {
     mentorPair: MentorPair;
 }
 
+export interface PreThesisCreation {
+    studentId: number;
+    preThesisName: string;
+    preThesisLink: string;
+}
+
 export interface MentorPair {
     id: number;
     preThesisId: number;
@@ -40,6 +46,12 @@ export interface Thesis {
     thesisName: string;
     thesisLink: string;
     thesisDefence: ThesisDefence;
+}
+
+export interface ThesisCreation {
+    studentId: number;
+    thesisName: string;
+    thesisLink: string;
 }
 
 export interface ThesisDefence {
